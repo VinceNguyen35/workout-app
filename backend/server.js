@@ -1,19 +1,22 @@
 require("dotenv").config();
 const express = require("express");
+const workoutRoutes = require("./routes/workouts");
 
 // Express App
 const app = express();
 
 // Middleware
+// Body Parser
+app.use(express.json());
+
+// Morgan
 app.use((req, res, next) => {
     console.log(req.method, req.path);
     next();
 });
 
 // Routes
-app.get("/", (req, res) => {
-    res.json({mssg: "Welcome to the app"});
-});
+app.use("/api/workouts", workoutRoutes);
 
 // Listen for Requests
 app.listen(process.env.PORT, () => {
