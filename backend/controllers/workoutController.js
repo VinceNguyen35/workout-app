@@ -33,14 +33,34 @@ const createWorkout = async (req, res) => {
 }
 
 // DELETE a Workout
+const deleteWorkout = async (req, res) => {
+    const { id } = req.params;
 
+    try {
+        const workout = await Workout.findOneAndDelete({ _id: id });
+        res.status(200).json(workout);
+    } catch(err) {
+        res.status(400).json({ error: "No such workout"});
+    }
+}
 
 // UPDATE a Workout
+const updateWorkout = async (req, res) => {
+    const { id } = req.params;
 
+    try {
+        const workout = await Workout.findOneAndUpdate({_id: id}, {...req.body}, {new: true});
+        res.status(200).json(workout);
+    } catch (err) {
+        res.status(400).json({ error: "No such workout" });
+    }
+}
 
 
 module.exports = {
     getWorkouts,
     getWorkout,
-    createWorkout
+    createWorkout,
+    deleteWorkout,
+    updateWorkout
 }
